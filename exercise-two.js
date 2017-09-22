@@ -145,7 +145,8 @@ function problemC () {
 
   // promise version
   // ???
-    Promise.each(filenames, fileName => promisifiedReadFile(fileName).then((stanza) => blue(stanza)))
+    Promise.each(filenames, fileName => promisifiedReadFile(fileName)
+        .then((stanza) => blue(stanza), (err) => magenta(err)))
         .then(() => console.log('done'));;
 
 }
@@ -195,7 +196,12 @@ function problemE () {
    */
 
   var fs = require('fs');
-  function promisifiedWriteFile (filename, str) {
-    // your code here
+  function promisifiedWriteFile (filename){
+    return new Promise((resolve, reject)=>{
+      fs.writeFile(filename, (err, content)=>{
+          if (err) reject(err);
+          else resolve(data);
+      })
+    })
   }
 }
